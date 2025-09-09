@@ -1,0 +1,168 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.header h1 {
+  margin-bottom: 20px;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.input-section input[type="text"] {
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 300px;
+}
+
+.input-section button {
+  padding: 10px 20px;
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.input-section button:hover {
+  background-color: #4fa3d1;
+}
+
+textarea {
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  resize: vertical;
+}
+
+.content-area {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+.sidebar li:hover {
+  background-color: #e2e2e2;
+}
+
+.sidebar li.active {
+  background-color: #61dafb;
+  color: white;
+}
+
+.main-content-wrapper {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  color: #333;
+}
+
+.main-content h2, .main-content h3, .main-content h4 {
+  color: #282c34;
+}
+
+.main-content ul {
+  list-style: disc inside;
+  padding-left: 20px;
+}
+
+.tracking-table input[type="text"],
+.tracking-table input[type="time"] {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.tracking-table button {
+  padding: 8px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tracking-table button:hover {
+  background-color: #218838;
+}
+
+.tracking-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tracking-table th,
+.tracking-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tracking-table th {
+  background-color: #f2f2f2;
+}
+
+.disclaimer {
+  background-color: #282c34;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+  .content-area {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .input-section input[type="text"] {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}
