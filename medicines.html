@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -277,3 +278,284 @@
     </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Tracker - My Medicines</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .welcome {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        .medicines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .medicine-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .medicine-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .medicine-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .medicine-type {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .medicine-description {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 2rem;
+            border: 1px solid #fcc;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .medicines-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏥 Medicine Tracker</h1>
+        <div class="user-info">
+            <span class="user-email" id="user-email">Loading...</span>
+            <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="welcome">
+            <h2>Welcome to Your Medicine Tracker! 👋</h2>
+            <p>Here are some common medicines you might be tracking:</p>
+        </div>
+
+        <div id="loading" class="loading">
+            Loading your medicines...
+        </div>
+
+        <div id="error" class="error" style="display: none;">
+            Error loading medicines. Please try again.
+        </div>
+
+        <div class="medicines-grid" id="medicines-grid" style="display: none;">
+            <!-- Medicine cards will be populated here -->
+        </div>
+    </div>
+
+    <script type="module" src="firebase.js"></script>
+    <script>
+        // Wait for Firebase to load
+        window.addEventListener('load', () => {
+            const userEmailSpan = document.getElementById('user-email');
+            const logoutBtn = document.getElementById('logout-btn');
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            const medicinesGrid = document.getElementById('medicines-grid');
+
+            // Check if user is authenticated
+            window.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // User is signed in
+                    userEmailSpan.textContent = user.email;
+                    loadMedicines();
+                } else {
+                    // User is signed out, redirect to login
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await window.auth.signOut();
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            });
+
+            // Load medicines (static list for now)
+            function loadMedicines() {
+                try {
+                    // Simulate loading delay
+                    setTimeout(() => {
+                        const medicines = [
+                            {
+                                name: "Paracetamol",
+                                type: "Pain Reliever",
+                                description: "Used to treat mild to moderate pain and reduce fever. Common over-the-counter medication."
+                            },
+                            {
+                                name: "Amoxicillin",
+                                type: "Antibiotic",
+                                description: "Broad-spectrum antibiotic used to treat various bacterial infections. Always take as prescribed."
+                            },
+                            {
+                                name: "Ibuprofen",
+                                type: "Anti-inflammatory",
+                                description: "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce pain, inflammation, and fever."
+                            },
+                            {
+                                name: "Aspirin",
+                                type: "Pain Reliever",
+                                description: "Used to treat pain, reduce inflammation, and prevent blood clots. Consult doctor before use."
+                            },
+                            {
+                                name: "Vitamin D",
+                                type: "Supplement",
+                                description: "Essential vitamin for bone health and immune system support. Often recommended for deficiency."
+                            },
+                            {
+                                name: "Metformin",
+                                type: "Diabetes Medication",
+                                description: "First-line medication for type 2 diabetes. Helps control blood sugar levels."
+                            }
+                        ];
+
+                        displayMedicines(medicines);
+                    }, 1000);
+                } catch (error) {
+                    showError();
+                }
+            }
+
+            function displayMedicines(medicines) {
+                loadingDiv.style.display = 'none';
+                medicinesGrid.style.display = 'grid';
+
+                medicinesGrid.innerHTML = medicines.map(medicine => `
+                    <div class="medicine-card">
+                        <div class="medicine-name">${medicine.name}</div>
+                        <div class="medicine-type">${medicine.type}</div>
+                        <div class="medicine-description">${medicine.description}</div>
+                    </div>
+                `).join('');
+            }
+
+            function showError() {
+                loadingDiv.style.display = 'none';
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
+>>>>>>> bd6dbf89378b4c18b20d7773bec8ecce57ff5e18
